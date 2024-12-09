@@ -1,6 +1,6 @@
 module github.com/gouef/web-bootstrap
 
-go 1.23.2
+go 1.23.4
 
 require (
 	github.com/bytedance/sonic v1.12.5 // indirect
