@@ -29,12 +29,12 @@ github.com/goccy/go-json v0.10.3/go.mod h1:oq7eo15ShAhp70Anwd5lgX2pLfOS3QCiwU/PU
 github.com/google/go-cmp v0.5.5 h1:Khx7svrCpmxxtHBq5j2mp/xVjsi8hQMfNLvJFAlrGgU=
 github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
 github.com/google/gofuzz v1.0.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
-github.com/gouef/diago v0.10.0 h1:Si3VdMSS/mN+qYaiStf3SuE5k16oBFEcBcIVSLj9QzM=
-github.com/gouef/diago v0.10.0/go.mod h1:6zO8CwrwLez2h5LDICuY6Wd1tv2p3HTAD/y5F1t29go=
+github.com/gouef/diago v1.0.0 h1:A2F6CynBzwIDzeNAm9hpy9z+3KLeZiDPGTaUwWib6gc=
+github.com/gouef/diago v1.0.0/go.mod h1:OVQN2kBPEmIs1qbl6yBGErCYcEv/KAmgpBmAAPcivfg=
 github.com/gouef/mode v1.0.0 h1:1dtM984WnjwJMjr5EzCa08oItfqFMIPxy5uN+vn4Clw=
 github.com/gouef/mode v1.0.0/go.mod h1:qhI8wtOa+DbW290fjLYAQxt9JIDdl4JQiLkrIj3JjLY=
-github.com/gouef/router v1.0.0 h1:4meRY8Owslrys0l1rRGxrfx43/BM4hOWcYKI/+CDpIc=
-github.com/gouef/router v1.0.0/go.mod h1:4WPMn/uaj/JKjupnGFOAy9ySMMjpJuJ7YEXNvO1iH0g=
+github.com/gouef/router v1.0.1 h1:X/vDX7n1bX4xCcSZwWgHxfBUbmPyBVPmGWj5THz8vfM=
+github.com/gouef/router v1.0.1/go.mod h1:fMdDeZZI5pVp+AHGGNXgFK9AW4r1Cn6FdkyxOnbIzvE=
 github.com/json-iterator/go v1.1.12 h1:PV8peI4a0ysnczrg+LtxykD8LfKY9ML6u2jnxaEnrnM=
 github.com/json-iterator/go v1.1.12/go.mod h1:e30LSqwooZae/UwlEbR2852Gd8hjQvJoHmT4TnhNGBo=
 github.com/klauspost/cpuid/v2 v2.0.9/go.mod h1:FInQzS24/EEf25PyTYn52gqo7WaD8xa0213Md/qVLRg=
