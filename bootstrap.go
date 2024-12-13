@@ -34,13 +34,13 @@ func (b *Bootstrap) AddDiagoExtension(extension diago.DiagoExtension) {
 
 func (b Bootstrap) Boot() {
 	r := b.router
-	n := r.GetNativeRouter()
 
 	if !r.IsRelease() {
 		d := b.diago
 		d.AddExtension(extensions.NewDiagoLatencyExtension())
 		d.AddExtension(extensions2.NewDiagoRouteExtension(r))
 
+		n := r.GetNativeRouter()
 		n.Use(diago.DiagoMiddleware(r, d))
 	}
 }
