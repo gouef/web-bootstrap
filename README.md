@@ -9,7 +9,7 @@ web-bootstrap
 [![Go Report Card](https://goreportcard.com/badge/github.com/gouef/web-bootstrap)](https://goreportcard.com/report/github.com/gouef/web-bootstrap)
 [![codecov](https://codecov.io/github/gouef/web-bootstrap/branch/main/graph/badge.svg?token=YUG8EMH6Q8)](https://codecov.io/github/gouef/web-bootstrap)
 
-## Vesions
+## Versions
 ![Stable Version](https://img.shields.io/github/v/release/gouef/web-bootstrap?label=Stable&labelColor=green)
 ![GitHub Release](https://img.shields.io/github/v/release/gouef/web-bootstrap?label=RC&include_prereleases&filter=*rc*&logoSize=diago)
 ![GitHub Release](https://img.shields.io/github/v/release/gouef/web-bootstrap?label=Beta&include_prereleases&filter=*beta*&logoSize=diago)
