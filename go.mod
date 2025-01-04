@@ -3,8 +3,8 @@ module github.com/gouef/web-bootstrap
 go 1.23.4
 
 require (
-	github.com/gouef/diago v1.1.0
-	github.com/gouef/router v1.1.0
+	github.com/gouef/diago v1.2.0
+	github.com/gouef/router v1.2.0
 )
 
 require (
