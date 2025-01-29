@@ -7,32 +7,36 @@ import (
 	extensions2 "github.com/gouef/router/extensions"
 )
 
-type Bootstrap struct {
+type BootstrapInterface struct {
 	router          *router.Router
 	diago           *diago.Diago
-	diagoExtensions []diago.DiagoExtension
+	diagoExtensions []diago.Extension
 }
 
-func NewBootstrap() *Bootstrap {
+func Bootstrap() *BootstrapInterface {
+	return NewBootstrap()
+}
+
+func NewBootstrap() *BootstrapInterface {
 	r := router.NewRouter()
 	d := diago.NewDiago()
 
-	return &Bootstrap{router: r, diago: d}
+	return &BootstrapInterface{router: r, diago: d}
 }
 
-func (b *Bootstrap) GetRouter() *router.Router {
+func (b *BootstrapInterface) GetRouter() *router.Router {
 	return b.router
 }
 
-func (b *Bootstrap) GetDiago() *diago.Diago {
+func (b *BootstrapInterface) GetDiago() *diago.Diago {
 	return b.diago
 }
 
-func (b *Bootstrap) AddDiagoExtension(extension diago.DiagoExtension) {
+func (b *BootstrapInterface) AddDiagoExtension(extension diago.Extension) {
 	b.diagoExtensions = append(b.diagoExtensions, extension)
 }
 
-func (b Bootstrap) Boot() {
+func (b *BootstrapInterface) Boot() {
 	r := b.router
 
 	if !r.IsRelease() {
