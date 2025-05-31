@@ -3,14 +3,13 @@ package web_bootstrap
 import (
 	"github.com/gouef/diago"
 	"github.com/gouef/diago/extensions"
+	"github.com/gouef/renderer"
 	"github.com/gouef/router"
 	extensions2 "github.com/gouef/router/extensions"
 )
 
 type BootstrapInterface struct {
-	router          *router.Router
-	diago           *diago.Diago
-	diagoExtensions []diago.Extension
+	router *router.Router
 }
 
 func Bootstrap() *BootstrapInterface {
@@ -19,9 +18,20 @@ func Bootstrap() *BootstrapInterface {
 
 func NewBootstrap() *BootstrapInterface {
 	r := router.NewRouter()
-	d := diago.NewDiago()
+	n := r.GetNativeRouter()
 
-	return &BootstrapInterface{router: r, diago: d}
+	if !r.IsRelease() {
+		d := diago.NewDiago()
+		d.AddExtension(extensions.NewLatencyExtension())
+		d.AddExtension(extensions2.NewDiagoRouteExtension(r))
+
+		n.Use(diago.Middleware(r, d))
+	}
+
+	n.SetTrustedProxies([]string{"127.0.0.1"})
+	renderer.RegisterToRouter(r, "./views/templates")
+
+	return &BootstrapInterface{router: r}
 }
 
 func (b *BootstrapInterface) GetRouter() *router.Router {
