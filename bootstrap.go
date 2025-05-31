@@ -25,6 +25,11 @@ func (b *BootstrapInterface) GetRouter() *router.Router {
 	return b.router
 }
 
+func (b *BootstrapInterface) Static(relativePath string, root string) *BootstrapInterface {
+	b.GetRouter().GetNativeRouter().Static(relativePath, root)
+	return b
+}
+
 func (b *BootstrapInterface) Boot() {
 	r := b.router
 	n := r.GetNativeRouter()
@@ -36,6 +41,9 @@ func (b *BootstrapInterface) Boot() {
 
 		n.Use(diago.Middleware(r, d))
 	}
+
+	n.Static("/static", "./static")
+	n.Static("/assets", "./static/assets")
 
 	n.SetTrustedProxies([]string{"127.0.0.1"})
 	renderer.RegisterToRouter(r, "./views/templates")
