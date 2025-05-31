@@ -18,6 +18,15 @@ func Bootstrap() *BootstrapInterface {
 
 func NewBootstrap() *BootstrapInterface {
 	r := router.NewRouter()
+	return &BootstrapInterface{router: r}
+}
+
+func (b *BootstrapInterface) GetRouter() *router.Router {
+	return b.router
+}
+
+func (b *BootstrapInterface) Boot() {
+	r := b.router
 	n := r.GetNativeRouter()
 
 	if !r.IsRelease() {
@@ -31,30 +40,4 @@ func NewBootstrap() *BootstrapInterface {
 	n.SetTrustedProxies([]string{"127.0.0.1"})
 	renderer.RegisterToRouter(r, "./views/templates")
 
-	return &BootstrapInterface{router: r}
-}
-
-func (b *BootstrapInterface) GetRouter() *router.Router {
-	return b.router
-}
-
-func (b *BootstrapInterface) GetDiago() *diago.Diago {
-	return b.diago
-}
-
-func (b *BootstrapInterface) AddDiagoExtension(extension diago.Extension) {
-	b.diagoExtensions = append(b.diagoExtensions, extension)
-}
-
-func (b *BootstrapInterface) Boot() {
-	r := b.router
-
-	if !r.IsRelease() {
-		d := b.diago
-		d.AddExtension(extensions.NewDiagoLatencyExtension())
-		d.AddExtension(extensions2.NewDiagoRouteExtension(r))
-
-		n := r.GetNativeRouter()
-		n.Use(diago.DiagoMiddleware(r, d))
-	}
 }
