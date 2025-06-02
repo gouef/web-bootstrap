@@ -1,0 +1,29 @@
+parameters:
+  dns: "127.0.0.1"
+  debug: true
+
+renderer:
+  dir: ./views/templates
+  test: lalala
+  extensions:
+    - test
+    - test2
+
+cache:
+  storages:
+    - type: "file"
+      instance: github.com/gouef/cache/File
+      name: default
+
+router:
+  statics:
+      - path: "/static"
+        root: "./static"
+      - path: "/assets"
+        root: "./static/assets"
+  extensions:
+    named: test
+    named2: test2
+
+custom_section:
+  foo: bar

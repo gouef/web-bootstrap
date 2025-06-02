@@ -6,10 +6,12 @@ import (
 	"github.com/gouef/renderer"
 	"github.com/gouef/router"
 	extensions2 "github.com/gouef/router/extensions"
+	"log"
 )
 
 type BootstrapInterface struct {
-	router *router.Router
+	router  *router.Router
+	configs []*Config
 }
 
 func Bootstrap() *BootstrapInterface {
@@ -19,6 +21,18 @@ func Bootstrap() *BootstrapInterface {
 func NewBootstrap() *BootstrapInterface {
 	r := router.NewRouter()
 	return &BootstrapInterface{router: r}
+}
+
+func (b *BootstrapInterface) AddConfig(path string) *BootstrapInterface {
+	cfg, err := LoadConfig(path)
+
+	if err != nil {
+		log.Println("unable load config. ", err.Error())
+		return b
+	}
+
+	b.configs = append(b.configs, cfg)
+	return b
 }
 
 func (b *BootstrapInterface) GetRouter() *router.Router {
