@@ -3,6 +3,7 @@ module github.com/gouef/web-bootstrap
 go 1.23.4
 
 require (
+	dario.cat/mergo v1.0.2
 	github.com/gouef/diago v1.2.4
 	github.com/gouef/renderer v1.0.1
 	github.com/gouef/router v1.2.9

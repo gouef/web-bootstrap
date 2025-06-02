@@ -25,6 +25,10 @@ router:
     named: test
     named2: test2
     named3: 2
+    multi:
+      - test:
+          inner: true
+          pi: 3.14
 
 custom_section:
   foo: bar

@@ -52,13 +52,7 @@ type CacheStorageItemConfig struct {
 	Custom   Custom
 }
 
-func LoadConfig(path string) (*Config, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
+func DefaultConfig() *Config {
 	rootDir, _ := filepath.Abs(".")
 	cfg := Config{}
 	cfg.Parameters = map[string]any{
@@ -69,11 +63,22 @@ func LoadConfig(path string) (*Config, error) {
 		{Path: "/static", Root: "./static"},
 		{Path: "/assets", Root: "./static/assets"},
 	}
+	return &cfg
+}
+
+func LoadConfig(path string) (*Config, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	cfg := DefaultConfig()
 	decoder := yaml.NewDecoder(file)
 	if err = decoder.Decode(&cfg); err != nil {
 		return nil, err
 	}
-	return &cfg, nil
+	return cfg, nil
 }
 
 func (c *Config) UnmarshalYAML(value *yaml.Node) error {
@@ -182,24 +187,24 @@ func ParseKnownAndCustom(node *yaml.Node, out any, knownFields []string) (map[st
 			}
 		}
 		if !found {
-			custom[k] = valueParse(k, v)
+			custom[k] = ValueParse(k, v)
 		}
 	}
 
 	return custom, nil
 }
 
-func valueParse(k any, node *yaml.Node) any {
+func ValueParse(k any, node *yaml.Node) any {
 	switch node.Kind {
 	case yaml.ScalarNode:
-		return parseScalarValue(node.Value)
+		return ParseScalarValue(node.Value)
 	case yaml.SequenceNode:
 		var values []any
 		for kk, item := range node.Content {
 			if item.Kind == yaml.ScalarNode {
 				values = append(values, item.Value)
 			} else if node.Kind == yaml.SequenceNode {
-				values = append(values, valueParse(kk, item))
+				values = append(values, ValueParse(kk, item))
 			}
 		}
 		return values
@@ -209,7 +214,7 @@ func valueParse(k any, node *yaml.Node) any {
 			keyNode := node.Content[i]
 			valNode := node.Content[i+1]
 			key := keyNode.Value
-			m[key] = valueParse(key, valNode)
+			m[key] = ValueParse(key, valNode)
 		}
 		return m
 	default:
@@ -217,7 +222,7 @@ func valueParse(k any, node *yaml.Node) any {
 	}
 }
 
-func parseScalarValue(s string) any {
+func ParseScalarValue(s string) any {
 	s = strings.TrimSpace(s)
 
 	if b, err := strconv.ParseBool(s); err == nil {
@@ -259,7 +264,7 @@ func ParseKnownAndCustomAuto(node *yaml.Node, out any) (map[string]any, error) {
 
 		yamlKey := yamlTag
 		if idx := len(yamlTag); idx > 0 {
-			if comma := indexComma(yamlTag); comma > -1 {
+			if comma := IndexComma(yamlTag); comma > -1 {
 				yamlKey = yamlTag[:comma]
 			}
 		}
@@ -269,7 +274,7 @@ func ParseKnownAndCustomAuto(node *yaml.Node, out any) (map[string]any, error) {
 	return ParseKnownAndCustom(node, out, knownFields)
 }
 
-func indexComma(tag string) int {
+func IndexComma(tag string) int {
 	for i := 0; i < len(tag); i++ {
 		if tag[i] == ',' {
 			return i

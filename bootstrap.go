@@ -1,6 +1,7 @@
 package web_bootstrap
 
 import (
+	"dario.cat/mergo"
 	"github.com/gouef/diago"
 	"github.com/gouef/diago/extensions"
 	"github.com/gouef/renderer"
@@ -12,6 +13,7 @@ import (
 type BootstrapInterface struct {
 	router  *router.Router
 	configs []*Config
+	config  *Config
 }
 
 func Bootstrap() *BootstrapInterface {
@@ -33,6 +35,25 @@ func (b *BootstrapInterface) AddConfig(path string) *BootstrapInterface {
 
 	b.configs = append(b.configs, cfg)
 	return b
+}
+
+func (b *BootstrapInterface) LoadConfiguration() *Config {
+	if len(b.configs) == 0 {
+		b.config = DefaultConfig()
+		return b.config
+	}
+
+	merged := *b.configs[0]
+
+	for _, cfg := range b.configs[1:] {
+		if err := mergo.Merge(&merged, cfg, mergo.WithOverride); err != nil {
+			log.Println("error merging config:", err)
+		}
+	}
+
+	b.config = &merged
+
+	return b.config
 }
 
 func (b *BootstrapInterface) GetRouter() *router.Router {
