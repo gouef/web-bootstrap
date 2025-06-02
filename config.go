@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"strconv"
+	"strings"
 )
 
 type Custom map[string]any
@@ -190,7 +192,7 @@ func ParseKnownAndCustom(node *yaml.Node, out any, knownFields []string) (map[st
 func valueParse(k any, node *yaml.Node) any {
 	switch node.Kind {
 	case yaml.ScalarNode:
-		return node.Value
+		return parseScalarValue(node.Value)
 	case yaml.SequenceNode:
 		var values []any
 		for kk, item := range node.Content {
@@ -213,6 +215,24 @@ func valueParse(k any, node *yaml.Node) any {
 	default:
 		return node
 	}
+}
+
+func parseScalarValue(s string) any {
+	s = strings.TrimSpace(s)
+
+	if b, err := strconv.ParseBool(s); err == nil {
+		return b
+	}
+
+	if i, err := strconv.ParseInt(s, 10, 64); err == nil {
+		return i
+	}
+
+	if f, err := strconv.ParseFloat(s, 64); err == nil {
+		return f
+	}
+
+	return s
 }
 
 func ParseKnownAndCustomAuto(node *yaml.Node, out any) (map[string]any, error) {

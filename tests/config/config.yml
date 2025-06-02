@@ -24,6 +24,7 @@ router:
   extensions:
     named: test
     named2: test2
+    named3: 2
 
 custom_section:
   foo: bar
