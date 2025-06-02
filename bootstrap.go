@@ -69,7 +69,9 @@ func (b *BootstrapInterface) Boot() {
 	r := b.router
 	n := r.GetNativeRouter()
 
-	if !r.IsRelease() {
+	cfg := b.LoadConfiguration()
+
+	if !r.IsRelease() && cfg.Diago.Enabled {
 		d := diago.NewDiago()
 		d.AddExtension(extensions.NewLatencyExtension())
 		d.AddExtension(extensions2.NewDiagoRouteExtension(r))
@@ -77,10 +79,18 @@ func (b *BootstrapInterface) Boot() {
 		n.Use(diago.Middleware(r, d))
 	}
 
-	n.Static("/static", "./static")
-	n.Static("/assets", "./static/assets")
+	for _, s := range cfg.Router.Statics {
+		n.Static(s.Path, s.Root)
+	}
 
-	n.SetTrustedProxies([]string{"127.0.0.1"})
-	renderer.RegisterToRouter(r, "./views/templates")
+	if len(cfg.Router.Proxy.Trust) > 0 {
+		err := n.SetTrustedProxies(cfg.Router.Proxy.Trust)
+		if err != nil {
+			log.Println("unable set trusted proxies.", err.Error())
+		}
+	}
+
+	rend := renderer.NewRenderer(cfg.Renderer.Dir, cfg.Renderer.Layout)
+	rend.RegisterRouter(r)
 
 }

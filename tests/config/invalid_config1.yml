@@ -2,13 +2,10 @@ parameters:
   dns: "127.0.0.1"
   debug: true
 
-diago:
-  enabled: true
-
 renderer:
   dir: ./views/templates
   layout:
-    - '@layout.gohtml'
+    - @layout.gohtml
     - base
     - layout
   test: lalala
@@ -28,9 +25,6 @@ router:
         root: "./static"
       - path: "/assets"
         root: "./static/assets"
-  proxy:
-    trust:
-      - 127.0.0.1
   extensions:
     named: test
     named2: test2

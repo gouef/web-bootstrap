@@ -21,22 +21,34 @@ type Config struct {
 	Renderer   RendererConfig `yaml:"renderer"`
 	Router     RouterConfig   `yaml:"router"`
 	Cache      CacheConfig    `yaml:"cache"`
+	Diago      DiagoConfig    `yaml:"diago"`
 	Custom     Custom
 }
 
+type DiagoConfig struct {
+	Enabled bool `yaml:"enabled"`
+}
+
 type RendererConfig struct {
-	Dir    string `yaml:"dir"`
+	Dir    string   `yaml:"dir"`
+	Layout []string `yaml:"layout"`
 	Custom Custom
 }
 
 type RouterConfig struct {
 	Statics []RouterStaticConfig `yaml:"statics"`
+	Proxy   RouterProxyConfig    `yaml:"proxy"`
 	Custom  Custom
 }
 
 type RouterStaticConfig struct {
 	Path   string `yaml:"path"`
 	Root   string `yaml:"root"`
+	Custom Custom
+}
+
+type RouterProxyConfig struct {
+	Trust  []string `yaml:"trust"`
 	Custom Custom
 }
 
@@ -58,11 +70,12 @@ func DefaultConfig() *Config {
 	cfg.Parameters = map[string]any{
 		"rootDir": rootDir,
 	}
-	cfg.Renderer = RendererConfig{Dir: "./views/templates"}
+	cfg.Renderer = RendererConfig{Dir: "./views/templates", Layout: []string{"@layout", "base", "layout"}}
 	cfg.Router.Statics = []RouterStaticConfig{
 		{Path: "/static", Root: "./static"},
 		{Path: "/assets", Root: "./static/assets"},
 	}
+	cfg.Diago.Enabled = true
 	return &cfg
 }
 
