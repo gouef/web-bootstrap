@@ -1,4 +1,4 @@
-package configuration
+package web_bootstrap
 
 import (
 	"time"
