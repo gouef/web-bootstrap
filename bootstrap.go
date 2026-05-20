@@ -64,6 +64,10 @@ func (b *BootstrapInterface) GetRouter() *router.Router {
 	return b.router
 }
 
+func (b *BootstrapInterface) GetGorm() *o_gorm.DB {
+	return b.gorm
+}
+
 func (b *BootstrapInterface) Static(relativePath string, root string) *BootstrapInterface {
 	b.GetRouter().GetNativeRouter().Static(relativePath, root)
 	return b
