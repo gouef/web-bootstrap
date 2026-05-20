@@ -20,13 +20,21 @@ type BootstrapInterface struct {
 	gorm    *o_gorm.DB
 }
 
+var (
+	Website  *BootstrapInterface
+	DB       *o_gorm.DB
+	Router   *router.Router
+	Renderer renderer.Renderer
+)
+
 func Bootstrap() *BootstrapInterface {
 	return NewBootstrap()
 }
 
 func NewBootstrap() *BootstrapInterface {
 	r := router.NewRouter()
-	return &BootstrapInterface{router: r}
+	Website = &BootstrapInterface{router: r}
+	return Website
 }
 
 func (b *BootstrapInterface) AddConfig(path string) *BootstrapInterface {
@@ -106,6 +114,9 @@ func (b *BootstrapInterface) LoadRouter(cfg *Config) {
 
 	rend := renderer.NewRenderer(cfg.Renderer.Dir, cfg.Renderer.Layout)
 	rend.RegisterRouter(r)
+
+	Router = r
+	Renderer = rend
 }
 
 func (b *BootstrapInterface) LoadGorm(cfg *Config) {
@@ -121,6 +132,7 @@ func (b *BootstrapInterface) LoadGorm(cfg *Config) {
 			log.Println("unable initialize gorm. ", err.Error())
 		} else {
 			b.gorm = db
+			DB = db
 			log.Println("connected to gorm database")
 		}
 	}
