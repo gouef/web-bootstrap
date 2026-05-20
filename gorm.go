@@ -4,21 +4,31 @@ import (
 	"time"
 
 	"github.com/gouef/gorm"
+	"gorm.io/gorm/logger"
 )
 
+type GormDatabaseLoggerConfig struct {
+	SlowThreshold             time.Duration   `mapstructure:"slow_threshold"`
+	LogLevel                  logger.LogLevel `mapstructure:"log_level"`
+	IgnoreRecordNotFoundError bool            `mapstructure:"ignore_record_not_found_error"`
+	ParameterizedQueries      bool            `mapstructure:"parameterized_queries"`
+	Colorful                  bool            `mapstructure:"colorful"`
+}
+
 type GormDatabaseConfig struct {
-	Driver          string        `mapstructure:"driver"`
-	Host            string        `mapstructure:"host"`
-	Port            int           `mapstructure:"port"`
-	User            string        `mapstructure:"user"`
-	Password        string        `mapstructure:"password"`
-	DBName          string        `mapstructure:"dbname"`
-	SSLMode         string        `mapstructure:"sslmode"`
-	TimeZone        string        `mapstructure:"timezone"`
-	MaxIdleConns    int           `mapstructure:"max_idle_conns"`
-	MaxOpenConns    int           `mapstructure:"max_open_conns"`
-	ConnMaxLifetime time.Duration `mapstructure:"conn_max_lifetime"`
-	Debug           bool          `mapstructure:"debug"`
+	Driver          string                   `mapstructure:"driver"`
+	Host            string                   `mapstructure:"host"`
+	Port            int                      `mapstructure:"port"`
+	User            string                   `mapstructure:"user"`
+	Password        string                   `mapstructure:"password"`
+	DBName          string                   `mapstructure:"dbname"`
+	SSLMode         string                   `mapstructure:"sslmode"`
+	TimeZone        string                   `mapstructure:"timezone"`
+	MaxIdleConns    int                      `mapstructure:"max_idle_conns"`
+	MaxOpenConns    int                      `mapstructure:"max_open_conns"`
+	ConnMaxLifetime time.Duration            `mapstructure:"conn_max_lifetime"`
+	Debug           bool                     `mapstructure:"debug"`
+	Logger          GormDatabaseLoggerConfig `mapstructure:"logger"`
 }
 
 // ToGormConfig vyexportuje data do struktury z balíčku gouef/gorm

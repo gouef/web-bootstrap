@@ -5,7 +5,7 @@ go 1.26.3
 require (
 	dario.cat/mergo v1.0.2
 	github.com/gouef/diago v1.2.4
-	github.com/gouef/gorm v1.0.0
+	github.com/gouef/gorm v1.0.1
 	github.com/gouef/renderer v1.1.0
 	github.com/gouef/router v1.2.10
 	github.com/stretchr/testify v1.11.1
