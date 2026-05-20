@@ -1,19 +1,23 @@
 package web_bootstrap
 
 import (
+	"log"
+
 	"dario.cat/mergo"
 	"github.com/gouef/diago"
 	"github.com/gouef/diago/extensions"
+	"github.com/gouef/gorm"
 	"github.com/gouef/renderer"
 	"github.com/gouef/router"
 	extensions2 "github.com/gouef/router/extensions"
-	"log"
+	o_gorm "gorm.io/gorm"
 )
 
 type BootstrapInterface struct {
 	router  *router.Router
 	configs []*Config
 	config  *Config
+	gorm    *o_gorm.DB
 }
 
 func Bootstrap() *BootstrapInterface {
@@ -66,10 +70,16 @@ func (b *BootstrapInterface) Static(relativePath string, root string) *Bootstrap
 }
 
 func (b *BootstrapInterface) Boot() {
+	cfg := b.LoadConfiguration()
+
+	b.LoadRouter(cfg)
+	b.LoadGorm(cfg)
+
+}
+
+func (b *BootstrapInterface) LoadRouter(cfg *Config) {
 	r := b.router
 	n := r.GetNativeRouter()
-
-	cfg := b.LoadConfiguration()
 
 	if !r.IsRelease() && cfg.Diago.Enabled {
 		d := diago.NewDiago()
@@ -92,5 +102,22 @@ func (b *BootstrapInterface) Boot() {
 
 	rend := renderer.NewRenderer(cfg.Renderer.Dir, cfg.Renderer.Layout)
 	rend.RegisterRouter(r)
+}
 
+func (b *BootstrapInterface) LoadGorm(cfg *Config) {
+
+	if cfg.Gorm.Driver != "" {
+
+		if cfg.Gorm.TimeZone == "" {
+			cfg.Gorm.TimeZone = "UTC"
+		}
+
+		db, err := gorm.New(cfg.Gorm.ToGormConfig())
+		if err != nil {
+			log.Println("unable initialize gorm. ", err.Error())
+		} else {
+			b.gorm = db
+			log.Println("connected to gorm database")
+		}
+	}
 }

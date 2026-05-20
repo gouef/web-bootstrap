@@ -5,10 +5,12 @@ go 1.26.3
 require (
 	dario.cat/mergo v1.0.2
 	github.com/gouef/diago v1.2.4
+	github.com/gouef/gorm v1.0.0
 	github.com/gouef/renderer v1.1.0
 	github.com/gouef/router v1.2.10
 	github.com/stretchr/testify v1.11.1
 	gopkg.in/yaml.v3 v3.0.1
+	gorm.io/gorm v1.31.1
 )
 
 require (
@@ -27,7 +29,6 @@ require (
 	github.com/go-sql-driver/mysql v1.10.0 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
 	github.com/gouef/finder v1.3.1 // indirect
-	github.com/gouef/gorm v1.0.0 // indirect
 	github.com/gouef/mode v1.0.7 // indirect
 	github.com/gouef/utils v1.9.4 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
@@ -57,5 +58,4 @@ require (
 	gorm.io/driver/mysql v1.6.0 // indirect
 	gorm.io/driver/postgres v1.6.0 // indirect
 	gorm.io/driver/sqlite v1.6.0 // indirect
-	gorm.io/gorm v1.31.1 // indirect
 )
