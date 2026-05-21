@@ -129,11 +129,11 @@ func (b *BootstrapInterface) LoadGorm(cfg *Config) {
 
 		db, err := gorm.New(cfg.Gorm.ToGormConfig())
 		if err != nil {
-			log.Println("unable initialize gorm. ", err.Error())
+			log.Println(gorm.Red+"unable initialize gorm. ", err.Error()+gorm.Reset)
 		} else {
 			b.gorm = db
 			DB = db
-			log.Println("connected to gorm database")
+			log.Println(gorm.Green + "connected to gorm database" + gorm.Reset)
 		}
 	}
 }
