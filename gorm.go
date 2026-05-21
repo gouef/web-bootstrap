@@ -4,34 +4,32 @@ import (
 	"time"
 
 	"github.com/gouef/gorm"
-	"gorm.io/gorm/logger"
 )
 
 type GormDatabaseLoggerConfig struct {
-	SlowThreshold             time.Duration   `mapstructure:"slow_threshold"`
-	LogLevel                  logger.LogLevel `mapstructure:"log_level"`
-	IgnoreRecordNotFoundError bool            `mapstructure:"ignore_record_not_found_error"`
-	ParameterizedQueries      bool            `mapstructure:"parameterized_queries"`
-	Colorful                  bool            `mapstructure:"colorful"`
+	SlowThreshold             time.Duration `json:"slow_threshold" yaml:"slow_threshold" mapstructure:"slow_threshold"`
+	LogLevel                  string        `json:"log_level" yaml:"log_level" mapstructure:"log_level"`
+	IgnoreRecordNotFoundError bool          `json:"ignore_record_not_found_error" yaml:"ignore_record_not_found_error" mapstructure:"ignore_record_not_found_error"`
+	ParameterizedQueries      bool          `json:"parameterized_queries" yaml:"parameterized_queries" mapstructure:"parameterized_queries"`
+	Colorful                  bool          `json:"colorful" yaml:"colorful" mapstructure:"colorful"`
 }
 
 type GormDatabaseConfig struct {
-	Driver          string                   `mapstructure:"driver"`
-	Host            string                   `mapstructure:"host"`
-	Port            int                      `mapstructure:"port"`
-	User            string                   `mapstructure:"user"`
-	Password        string                   `mapstructure:"password"`
-	DBName          string                   `mapstructure:"dbname"`
-	SSLMode         string                   `mapstructure:"sslmode"`
-	TimeZone        string                   `mapstructure:"timezone"`
-	MaxIdleConns    int                      `mapstructure:"max_idle_conns"`
-	MaxOpenConns    int                      `mapstructure:"max_open_conns"`
-	ConnMaxLifetime time.Duration            `mapstructure:"conn_max_lifetime"`
-	Debug           bool                     `mapstructure:"debug"`
-	Logger          GormDatabaseLoggerConfig `mapstructure:"logger"`
+	Driver          string                   `json:"driver" yaml:"driver" mapstructure:"driver"`
+	Host            string                   `json:"host" yaml:"host" mapstructure:"host"`
+	Port            int                      `json:"port" yaml:"port" mapstructure:"port"`
+	User            string                   `json:"user" yaml:"user" mapstructure:"user"`
+	Password        string                   `json:"password" yaml:"password" mapstructure:"password"`
+	DBName          string                   `json:"dbname" yaml:"dbname" mapstructure:"dbname"`
+	SSLMode         string                   `json:"sslmode" yaml:"sslmode" mapstructure:"sslmode"`
+	TimeZone        string                   `json:"timezone" yaml:"timezone" mapstructure:"timezone"`
+	MaxIdleConns    int                      `json:"max_idle_conns" yaml:"max_idle_conns" mapstructure:"max_idle_conns"`
+	MaxOpenConns    int                      `json:"max_open_conns" yaml:"max_open_conns" mapstructure:"max_open_conns"`
+	ConnMaxLifetime time.Duration            `json:"conn_max_lifetime" yaml:"conn_max_lifetime" mapstructure:"conn_max_lifetime"`
+	Debug           bool                     `json:"debug" yaml:"debug" mapstructure:"debug"`
+	Logger          GormDatabaseLoggerConfig `json:"logger" yaml:"logger" mapstructure:"logger"`
 }
 
-// ToGormConfig vyexportuje data do struktury z balíčku gouef/gorm
 func (db GormDatabaseConfig) ToGormConfig() *gorm.Config {
 	return &gorm.Config{
 		Driver:          db.Driver,
@@ -46,5 +44,16 @@ func (db GormDatabaseConfig) ToGormConfig() *gorm.Config {
 		MaxOpenConns:    db.MaxOpenConns,
 		ConnMaxLifetime: db.ConnMaxLifetime,
 		Debug:           db.Debug,
+		Logger:          loggerConfigToGouefLoggerConfig(db.Logger),
+	}
+}
+
+func loggerConfigToGouefLoggerConfig(cfg GormDatabaseLoggerConfig) gorm.LoggerConfig {
+	return gorm.LoggerConfig{
+		SlowThreshold:             cfg.SlowThreshold,
+		LogLevel:                  cfg.LogLevel,
+		IgnoreRecordNotFoundError: cfg.IgnoreRecordNotFoundError,
+		ParameterizedQueries:      cfg.ParameterizedQueries,
+		Colorful:                  cfg.Colorful,
 	}
 }
