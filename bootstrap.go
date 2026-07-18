@@ -1,6 +1,7 @@
 package web_bootstrap
 
 import (
+	"html/template"
 	"log"
 
 	"dario.cat/mergo"
@@ -14,10 +15,11 @@ import (
 )
 
 type BootstrapInterface struct {
-	router  *router.Router
-	configs []*Config
-	config  *Config
-	gorm    *o_gorm.DB
+	router      *router.Router
+	configs     []*Config
+	config      *Config
+	gorm        *o_gorm.DB
+	customFuncs template.FuncMap
 }
 
 var (
@@ -35,6 +37,13 @@ func NewBootstrap() *BootstrapInterface {
 	r := router.NewRouter()
 	Website = &BootstrapInterface{router: r}
 	return Website
+}
+
+func (b *BootstrapInterface) AddRendererFunc(name string, fn interface{}) {
+	if b.customFuncs == nil {
+		b.customFuncs = make(template.FuncMap)
+	}
+	b.customFuncs[name] = fn
 }
 
 func (b *BootstrapInterface) AddConfig(path string) *BootstrapInterface {
@@ -113,6 +122,7 @@ func (b *BootstrapInterface) LoadRouter(cfg *Config) {
 	}
 
 	rend := renderer.NewRenderer(cfg.Renderer.Dir, cfg.Renderer.Layout)
+	rend.AddCustomFuncMap(b.customFuncs)
 	rend.RegisterRouter(r)
 
 	Router = r
