@@ -58,6 +58,13 @@ func (b *BootstrapInterface) AddConfig(path string) *BootstrapInterface {
 	return b
 }
 
+func (b *BootstrapInterface) GetConfig() *Config {
+	if b.config == nil {
+		return b.LoadConfiguration()
+	}
+	return b.config
+}
+
 func (b *BootstrapInterface) LoadConfiguration() *Config {
 	if len(b.configs) == 0 {
 		b.config = DefaultConfig()
