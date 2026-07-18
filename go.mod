@@ -6,7 +6,7 @@ require (
 	dario.cat/mergo v1.0.2
 	github.com/gouef/diago v1.2.4
 	github.com/gouef/gorm v1.0.3
-	github.com/gouef/renderer v1.1.3
+	github.com/gouef/renderer v1.1.4
 	github.com/gouef/router v1.2.10
 	github.com/stretchr/testify v1.11.1
 	gopkg.in/yaml.v3 v3.0.1

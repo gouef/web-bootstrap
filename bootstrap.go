@@ -122,7 +122,7 @@ func (b *BootstrapInterface) LoadRouter(cfg *Config) {
 	}
 
 	rend := renderer.NewRenderer(cfg.Renderer.Dir, cfg.Renderer.Layout)
-	rend.AddCustomFuncMap(b.customFuncs)
+	renderer.AddCustomFuncMap(b.customFuncs)
 	rend.RegisterRouter(r)
 
 	Router = r
