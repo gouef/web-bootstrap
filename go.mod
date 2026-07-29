@@ -7,7 +7,7 @@ require (
 	github.com/gouef/diago v1.2.4
 	github.com/gouef/gorm v1.0.3
 	github.com/gouef/renderer v1.1.4
-	github.com/gouef/router v1.2.10
+	github.com/gouef/router v1.2.11
 	github.com/stretchr/testify v1.11.1
 	gopkg.in/yaml.v3 v3.0.1
 	gorm.io/gorm v1.31.2
